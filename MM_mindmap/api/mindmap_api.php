@@ -111,7 +111,7 @@ class MindMapAPI {
         }
     }
     
-    private function createMindMap() {
+    public function createMindMap() {
         $user = $this->requireAuth();
         $input = $this->getJsonInput();
         
@@ -163,7 +163,7 @@ class MindMapAPI {
         }
     }
     
-    private function listMindMaps() {
+    public function listMindMaps() {
         $user = $this->requireAuth();
         $page = (int)($_GET['page'] ?? 1);
         $limit = min((int)($_GET['limit'] ?? 20), 100);
@@ -196,7 +196,7 @@ class MindMapAPI {
         ];
     }
     
-    private function getMindMap() {
+    public function getMindMap() {
         $mapId = $_GET['map_id'] ?? null;
         if (!$mapId) {
             throw new Exception('Map ID is required', 400);
@@ -256,7 +256,7 @@ class MindMapAPI {
         ];
     }
     
-    private function updateMindMap() {
+    public function updateMindMap() {
         $mapId = $_GET['map_id'] ?? null;
         if (!$mapId) {
             throw new Exception('Map ID is required', 400);
@@ -310,7 +310,7 @@ class MindMapAPI {
         ];
     }
     
-    private function deleteMindMap() {
+    public function deleteMindMap() {
         $mapId = $_GET['map_id'] ?? null;
         if (!$mapId) {
             throw new Exception('Map ID is required', 400);
@@ -340,7 +340,7 @@ class MindMapAPI {
         ];
     }
     
-    private function createNode() {
+    public function createNode() {
         $mapId = $_GET['map_id'] ?? null;
         if (!$mapId) {
             throw new Exception('Map ID is required', 400);
@@ -400,7 +400,7 @@ class MindMapAPI {
         ];
     }
     
-    private function updateNode() {
+    public function updateNode() {
         $nodeId = $_GET['node_id'] ?? null;
         if (!$nodeId) {
             throw new Exception('Node ID is required', 400);
@@ -457,7 +457,7 @@ class MindMapAPI {
         ];
     }
     
-    private function deleteNode() {
+    public function deleteNode() {
         $nodeId = $_GET['node_id'] ?? null;
         if (!$nodeId) {
             throw new Exception('Node ID is required', 400);
@@ -489,7 +489,7 @@ class MindMapAPI {
         ];
     }
     
-    private function exportMindMap() {
+    public function exportMindMap() {
         $mapId = $_GET['map_id'] ?? null;
         $format = $_GET['format'] ?? 'json';
         
@@ -550,7 +550,7 @@ class MindMapAPI {
         }
     }
     
-    private function createShare() {
+    public function createShare() {
         $mapId = $_GET['map_id'] ?? null;
         if (!$mapId) {
             throw new Exception('Map ID is required', 400);
@@ -592,7 +592,7 @@ class MindMapAPI {
         ];
     }
     
-    private function getCategories() {
+    public function getCategories() {
         $categories = $this->db->fetchAll(
             "SELECT category_id, name, color, description FROM categories ORDER BY name"
         );
@@ -603,7 +603,7 @@ class MindMapAPI {
         ];
     }
     
-    private function getJsonInput() {
+    public function getJsonInput() {
         $input = json_decode(file_get_contents('php://input'), true);
         
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -613,7 +613,7 @@ class MindMapAPI {
         return $input ?: [];
     }
     
-    private function requireAuth() {
+    public function requireAuth() {
         $token = $this->getBearerToken();
         
         if (!$token) {
@@ -629,7 +629,7 @@ class MindMapAPI {
         return $user;
     }
     
-    private function getBearerToken() {
+    public function getBearerToken() {
         $headers = apache_request_headers();
         
         if (isset($headers['Authorization'])) {
@@ -643,7 +643,7 @@ class MindMapAPI {
         return null;
     }
     
-    private function validateRequiredFields($input, $requiredFields) {
+    public function validateRequiredFields($input, $requiredFields) {
         foreach ($requiredFields as $field) {
             if (!isset($input[$field]) || empty($input[$field])) {
                 throw new Exception("Field '{$field}' is required", 400);
@@ -651,7 +651,7 @@ class MindMapAPI {
         }
     }
     
-    private function logActivity($userId, $mapId, $action, $resourceType, $resourceId, $details = []) {
+    public function logActivity($userId, $mapId, $action, $resourceType, $resourceId, $details = []) {
         $this->db->execute(
             "INSERT INTO activity_log (user_id, map_id, action_type, resource_type, resource_id, details, ip_address, user_agent) 
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -668,7 +668,7 @@ class MindMapAPI {
         );
     }
     
-    private function getClientIP() {
+    public function getClientIP() {
         $ipKeys = ['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'];
         
         foreach ($ipKeys as $key) {
@@ -685,7 +685,7 @@ class MindMapAPI {
         return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     }
     
-    private function arrayToXml($array, $rootElement = 'root', $xml = null) {
+    public function arrayToXml($array, $rootElement = 'root', $xml = null) {
         if ($xml === null) {
             $xml = new SimpleXMLElement("<{$rootElement}/>");
         }
@@ -726,7 +726,7 @@ case 'ai-suggestions':
 // ... (Make sure the 'ai-suggestions' case exists in the handleRequest switch statement)
 
 // Replace the old getAISuggestions function with this corrected one
-private function getAISuggestions() {
+public function getAISuggestions() {
     $user = $this->requireAuth();
     $nodeId = $_GET['node_id'] ?? null;
     if (!$nodeId) {
