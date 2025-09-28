@@ -2224,7 +2224,7 @@
             }
             
             // AI Suggestions
-            // This is the NEW function that calls the API
+// This is the NEW function that calls the API
 async getAISuggestions() {
     if (!this.currentMindMap) {
         this.showToast('Please select a mindmap first', 'warning');
@@ -2241,7 +2241,7 @@ async getAISuggestions() {
     try {
         // API call to the backend
         const response = await this.apiCall(`mindmap_api.php?action=ai-suggestions&node_id=${this.selectedNode.data.key}`, 'GET');
-        
+
         if (response.success && response.data.length > 0) {
             const parentNode = this.selectedNode;
 
@@ -2250,7 +2250,7 @@ async getAISuggestions() {
                 this.addChildNode(parentNode, suggestionText);
             });
             this.showToast('AI suggestions added!', 'success');
-            
+
         } else {
             this.showToast(response.message || 'No new suggestions found.', 'info');
         }
