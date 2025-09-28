@@ -7,33 +7,6 @@ header('Location: login.php');
 exit();
 ?>
 
-<?php
-// .htaccess
-RewriteEngine On
-// 
-# API Routes
-RewriteRule ^api/auth/?$ api/auth.php [L]
-RewriteRule ^api/mindmap/?$ api/mindmap_api.php [L]
-RewriteRule ^api/upload/?$ api/upload.php [L]
-
-# Admin Routes
-RewriteRule ^admin/?$ admin/dashboard.php [L]
-RewriteRule ^admin/login/?$ admin/login.php [L]
-RewriteRule ^admin/logout/?$ admin/logout.php [L]
-
-# Frontend
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.html [L]
-
-# Security Headers
-Header always set X-Content-Type-Options nosniff
-Header always set X-Frame-Options DENY
-Header always set X-XSS-Protection "1; mode=block"
-Header always set Referrer-Policy "strict-origin-when-cross-origin"
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' cdnjs.cloudflare.com"
-
-?>
 
 <?php
 // install.php - Installation script
