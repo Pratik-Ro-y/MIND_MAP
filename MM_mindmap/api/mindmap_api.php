@@ -722,15 +722,33 @@ case 'ai-suggestions':
     return $this->getAISuggestions();
 
 // New private method
+// In api/mindmap_api.php
+// ... (Make sure the 'ai-suggestions' case exists in the handleRequest switch statement)
+
+// Replace the old getAISuggestions function with this corrected one
 private function getAISuggestions() {
     $user = $this->requireAuth();
     $nodeId = $_GET['node_id'] ?? null;
     if (!$nodeId) {
         throw new Exception('Node ID is required', 400);
     }
+
+    // Fetch the node and verify ownership through the map
+    $node = $this.db->fetch(
+        "SELECT n.node_text, n.map_id FROM nodes n 
+         JOIN mind_maps m ON n.map_id = m.map_id 
+         WHERE n.node_id = ? AND m.user_id = ?",
+        [$nodeId, $user['user_id']]
+    );
+
+    if (!$node) {
+        throw new Exception('Node not found or access denied', 404);
+    }
+
+    // Now call the AIProcessor with the correct parameters
+    require_once '../includes/AIProcessor.php'; // Ensure AIProcessor is included
     $aiProcessor = new AIProcessor();
-    $suggestions = $aiProcessor->generateSuggestions($nodeId); // AIProcessor.php needs map_id and node_text, not node_id.
-    // You'll need to modify AIProcessor to accept a node_id and retrieve text and map_id itself.
+    $suggestions = $aiProcessor->generateSuggestions($node['map_id'], $node['node_text']);
 
     return [
         'success' => true,
