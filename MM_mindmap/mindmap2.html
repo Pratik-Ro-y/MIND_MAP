@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindMap Generator Platform</title>
-    
-    <!-- External Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/2.3.13/go.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MindMap Generator Platform</title>
+
+        <!-- External Libraries -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/gojs/2.3.13/go.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+        <style>
         * {
             margin: 0;
             padding: 0;
@@ -724,435 +728,494 @@
             background: rgba(102, 126, 234, 0.1);
         }
     </style>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="#" class="logo">
-                <i class="fas fa-brain"></i>
-                MindMap Platform
-            </a>
-            
-            <nav class="nav-buttons">
-                <button class="btn btn-outline" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Login
-                </button>
-                <button class="btn btn-primary" id="signupBtn">
-                    <i class="fas fa-user-plus"></i>
-                    Sign Up
-                </button>
-                <div class="user-menu" id="userMenu">
-                    <div class="user-avatar" id="userAvatar">U</div>
-                    <button class="btn btn-outline" id="profileBtn">
-                        <i class="fas fa-user"></i>
-                        Profile
+    </head>
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-brain"></i>
+                    MindMap Platform
+                </a>
+
+                <nav class="nav-buttons">
+                    <button class="btn btn-outline" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
                     </button>
-                    <button class="btn" id="logoutBtn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
+                    <button class="btn btn-primary" id="signupBtn">
+                        <i class="fas fa-user-plus"></i>
+                        Sign Up
+                    </button>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <button class="btn btn-outline" id="profileBtn">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </button>
+                        <button class="btn" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-plus-circle"></i> Create New</h3>
+                    <button class="btn btn-primary" style="width: 100%;"
+                        id="newMindMapBtn">
+                        <i class="fas fa-plus"></i>
+                        New MindMap
                     </button>
                 </div>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-section">
-                <h3><i class="fas fa-plus-circle"></i> Create New</h3>
-                <button class="btn btn-primary" style="width: 100%;" id="newMindMapBtn">
-                    <i class="fas fa-plus"></i>
-                    New MindMap
-                </button>
-            </div>
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-upload"></i> Upload & Generate</h3>
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h4>Upload Document</h4>
+                        <p>Drop files here or click to browse</p>
+                        <input type="file" id="fileInput"
+                            accept=".txt,.pdf,.docx,.md" style="display: none;">
+                    </div>
+                </div>
 
-            <div class="sidebar-section">
-                <h3><i class="fas fa-upload"></i> Upload & Generate</h3>
-                <div class="upload-area" id="uploadArea">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h4>Upload Document</h4>
-                    <p>Drop files here or click to browse</p>
-                    <input type="file" id="fileInput" accept=".txt,.pdf,.docx,.md" style="display: none;">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-folder"></i> Categories</h3>
+                    <select class="form-control" id="categoryFilter">
+                        <option value>All Categories</option>
+                    </select>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-search"></i> Search</h3>
+                    <input type="text" class="form-control"
+                        placeholder="Search mindmaps..." id="searchInput">
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-list"></i> My MindMaps</h3>
+                    <ul class="mindmap-list" id="mindmapList">
+                        <!-- Dynamic content -->
+                    </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-template"></i> Templates</h3>
+                    <button class="btn btn-outline" style="width: 100%;"
+                        id="templatesBtn">
+                        <i class="fas fa-download"></i>
+                        Browse Templates
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Canvas Container -->
+            <div class="canvas-container">
+                <div class="canvas-header">
+                    <div class="canvas-title" id="canvasTitle">Welcome to
+                        MindMap Platform</div>
+                    <div class="canvas-tools">
+                        <button class="tool-btn" id="addNodeBtn"
+                            title="Add Node">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="tool-btn" id="aiSuggestBtn"
+                            title="AI Suggestions">
+                            <i class="fas fa-robot"></i>
+                        </button>
+                        <button class="tool-btn" id="autoLayoutBtn"
+                            title="Auto Layout">
+                            <i class="fas fa-project-diagram"></i>
+                        </button>
+                        <button class="tool-btn" id="zoomInBtn" title="Zoom In">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button class="tool-btn" id="zoomOutBtn"
+                            title="Zoom Out">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="tool-btn" id="fitToScreenBtn"
+                            title="Fit to Screen">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </button>
+                        <button class="tool-btn" id="saveBtn" title="Save">
+                            <i class="fas fa-save"></i>
+                        </button>
+                        <button class="tool-btn" id="exportBtn" title="Export">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="tool-btn" id="shareBtn" title="Share">
+                            <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mindmap-canvas" id="mindmapCanvas">
+                    <div class="welcome-screen" id="welcomeScreen">
+                        <div class="content">
+                            <i class="fas fa-brain"></i>
+                            <h2>Welcome to MindMap Platform</h2>
+                            <p>Create, organize, and visualize your ideas with
+                                our powerful mind mapping tool. Upload documents
+                                for AI-powered generation or start from
+                                scratch.</p>
+                            <button class="btn btn-primary" id="getStartedBtn">
+                                <i class="fas fa-rocket"></i>
+                                Get Started
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </main>
 
-            <div class="sidebar-section">
-                <h3><i class="fas fa-folder"></i> Categories</h3>
-                <select class="form-control" id="categoryFilter">
-                    <option value="">All Categories</option>
+        <!-- Properties Panel -->
+        <div class="properties-panel" id="propertiesPanel">
+            <h3><i class="fas fa-cog"></i> Node Properties</h3>
+
+            <div class="form-group">
+                <label for="nodeText">Text:</label>
+                <textarea class="form-control" id="nodeText" rows="2"
+                    placeholder="Enter node text..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="nodeColor">Color:</label>
+                <input type="color" class="color-picker" id="nodeColor"
+                    value="#667eea">
+            </div>
+
+            <div class="form-group">
+                <label for="nodeBackgroundColor">Background:</label>
+                <input type="color" class="color-picker"
+                    id="nodeBackgroundColor" value="#ffffff">
+            </div>
+
+            <div class="form-group">
+                <label for="nodeFontSize">Font Size:</label>
+                <select class="form-control" id="nodeFontSize">
+                    <option value="10">10px</option>
+                    <option value="12">12px</option>
+                    <option value="14" selected>14px</option>
+                    <option value="16">16px</option>
+                    <option value="18">18px</option>
+                    <option value="20">20px</option>
+                    <option value="24">24px</option>
                 </select>
             </div>
 
-            <div class="sidebar-section">
-                <h3><i class="fas fa-search"></i> Search</h3>
-                <input type="text" class="form-control" placeholder="Search mindmaps..." id="searchInput">
+            <div class="form-group">
+                <label for="nodeIcon">Icon:</label>
+                <select class="form-control" id="nodeIcon">
+                    <option value>No Icon</option>
+                    <option value="fas fa-star">⭐ Star</option>
+                    <option value="fas fa-heart">❤️ Heart</option>
+                    <option value="fas fa-lightbulb">💡 Idea</option>
+                    <option value="fas fa-flag">🏁 Flag</option>
+                    <option value="fas fa-check-circle">✅ Check</option>
+                    <option value="fas fa-exclamation-triangle">⚠️
+                        Warning</option>
+                </select>
             </div>
 
-            <div class="sidebar-section">
-                <h3><i class="fas fa-list"></i> My MindMaps</h3>
-                <ul class="mindmap-list" id="mindmapList">
-                    <!-- Dynamic content -->
-                </ul>
+            <div class="form-group">
+                <label for="nodePriority">Priority:</label>
+                <select class="form-control" id="nodePriority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                </select>
             </div>
 
-            <div class="sidebar-section">
-                <h3><i class="fas fa-template"></i> Templates</h3>
-                <button class="btn btn-outline" style="width: 100%;" id="templatesBtn">
-                    <i class="fas fa-download"></i>
-                    Browse Templates
+            <div class="form-group">
+                <label for="nodeStatus">Status:</label>
+                <select class="form-control" id="nodeStatus">
+                    <option value="pending" selected>Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="nodeTags">Tags (comma-separated):</label>
+                <input type="text" class="form-control" id="nodeTags"
+                    placeholder="tag1, tag2, tag3">
+            </div>
+
+            <div class="form-group">
+                <label for="nodeNotes">Notes:</label>
+                <textarea class="form-control" id="nodeNotes" rows="3"
+                    placeholder="Additional notes..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                <button class="btn btn-primary" id="applyPropertiesBtn"
+                    style="flex: 1;">
+                    <i class="fas fa-check"></i>
+                    Apply
+                </button>
+                <button class="btn btn-outline" id="cancelPropertiesBtn"
+                    style="flex: 1;">
+                    <i class="fas fa-times"></i>
+                    Cancel
                 </button>
             </div>
-        </aside>
+        </div>
 
-        <!-- Canvas Container -->
-        <div class="canvas-container">
-            <div class="canvas-header">
-                <div class="canvas-title" id="canvasTitle">Welcome to MindMap Platform</div>
-                <div class="canvas-tools">
-                    <button class="tool-btn" id="addNodeBtn" title="Add Node">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <button class="tool-btn" id="aiSuggestBtn" title="AI Suggestions">
-                        <i class="fas fa-robot"></i>
-                    </button>
-                    <button class="tool-btn" id="autoLayoutBtn" title="Auto Layout">
-                        <i class="fas fa-project-diagram"></i>
-                    </button>
-                    <button class="tool-btn" id="zoomInBtn" title="Zoom In">
-                        <i class="fas fa-search-plus"></i>
-                    </button>
-                    <button class="tool-btn" id="zoomOutBtn" title="Zoom Out">
-                        <i class="fas fa-search-minus"></i>
-                    </button>
-                    <button class="tool-btn" id="fitToScreenBtn" title="Fit to Screen">
-                        <i class="fas fa-expand-arrows-alt"></i>
-                    </button>
-                    <button class="tool-btn" id="saveBtn" title="Save">
-                        <i class="fas fa-save"></i>
-                    </button>
-                    <button class="tool-btn" id="exportBtn" title="Export">
-                        <i class="fas fa-download"></i>
-                    </button>
-                    <button class="tool-btn" id="shareBtn" title="Share">
-                        <i class="fas fa-share"></i>
+        <!-- Toast Container -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Login Modal -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Login to Your Account</h3>
+                    <button class="modal-close"
+                        onclick="closeModal('loginModal')">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
-            </div>
 
-            <div class="mindmap-canvas" id="mindmapCanvas">
-                <div class="welcome-screen" id="welcomeScreen">
-                    <div class="content">
-                        <i class="fas fa-brain"></i>
-                        <h2>Welcome to MindMap Platform</h2>
-                        <p>Create, organize, and visualize your ideas with our powerful mind mapping tool. Upload documents for AI-powered generation or start from scratch.</p>
-                        <button class="btn btn-primary" id="getStartedBtn">
-                            <i class="fas fa-rocket"></i>
-                            Get Started
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUsername">Username or Email:</label>
+                        <input type="text" class="form-control"
+                            id="loginUsername" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password:</label>
+                        <input type="password" class="form-control"
+                            id="loginPassword" required>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary"
+                            style="flex: 1;">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Login
+                        </button>
+                        <button type="button" class="btn btn-outline"
+                            onclick="showModal('signupModal'); closeModal('loginModal');">
+                            Sign Up
+                        </button>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <a href="#"
+                            style="color: var(--primary-solid); text-decoration: none;"
+                            id="forgotPasswordLink">
+                            Forgot Password?
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Signup Modal -->
+        <div class="modal" id="signupModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create Your Account</h3>
+                    <button class="modal-close"
+                        onclick="closeModal('signupModal')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="signupUsername">Username:</label>
+                        <input type="text" class="form-control"
+                            id="signupUsername" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupEmail">Email:</label>
+                        <input type="email" class="form-control"
+                            id="signupEmail" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword">Password:</label>
+                        <input type="password" class="form-control"
+                            id="signupPassword" required minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Confirm
+                            Password:</label>
+                        <input type="password" class="form-control"
+                            id="signupConfirmPassword" required minlength="6">
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary"
+                            style="flex: 1;">
+                            <i class="fas fa-user-plus"></i>
+                            Sign Up
+                        </button>
+                        <button type="button" class="btn btn-outline"
+                            onclick="showModal('loginModal'); closeModal('signupModal');">
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- New MindMap Modal -->
+        <div class="modal" id="newMindMapModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create New MindMap</h3>
+                    <button class="modal-close"
+                        onclick="closeModal('newMindMapModal')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <form id="newMindMapForm">
+                    <div class="form-group">
+                        <label for="mindmapTitle">Title:</label>
+                        <input type="text" class="form-control"
+                            id="mindmapTitle" required
+                            placeholder="Enter mindmap title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mindmapDescription">Description:</label>
+                        <textarea class="form-control" id="mindmapDescription"
+                            rows="3"
+                            placeholder="Describe your mindmap..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mindmapCategory">Category:</label>
+                        <select class="form-control" id="mindmapCategory">
+                            <option value>Select Category</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="centralNodeText">Central Node Text:</label>
+                        <input type="text" class="form-control"
+                            id="centralNodeText"
+                            placeholder="Main topic or idea" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mindmapTheme">Theme:</label>
+                        <select class="form-control" id="mindmapTheme">
+                            <option value="default">Default</option>
+                            <option value="blue">Blue Ocean</option>
+                            <option value="green">Nature</option>
+                            <option value="purple">Purple Haze</option>
+                            <option value="orange">Sunset</option>
+                            <option value="dark">Dark Mode</option>
+                        </select>
+                    </div>
+
+                    <div
+                        style="display: flex; align-items: center; margin: 1.5rem 0;">
+                        <input type="checkbox" id="mindmapPublic"
+                            style="margin-right: 0.75rem; transform: scale(1.2);">
+                        <label for="mindmapPublic">Make this mind map
+                            public</label>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary"
+                            style="flex: 1;">
+                            <i class="fas fa-plus"></i>
+                            Create MindMap
+                        </button>
+                        <button type="button" class="btn btn-outline"
+                            onclick="closeModal('newMindMapModal')">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- AI Processing Modal -->
+        <div class="modal" id="aiProcessingModal">
+            <div class="modal-content" style="text-align: center;">
+                <div class="modal-header">
+                    <h3>AI Processing</h3>
+                </div>
+
+                <div style="padding: 2rem;">
+                    <div class="loading"
+                        style="width: 40px; height: 40px; border-width: 4px; margin: 0 auto 1rem;"></div>
+                    <h4>Generating MindMap...</h4>
+                    <p>Our AI is analyzing your content and creating a
+                        structured mind map. This may take a few moments.</p>
+
+                    <div style="margin-top: 2rem;">
+                        <div id="aiProgress"
+                            style="width: 100%; height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="aiProgressBar"
+                                style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s ease; border-radius: 3px;"></div>
+                        </div>
+                        <small id="aiProgressText"
+                            style="display: block; margin-top: 0.5rem; color: var(--secondary);">Initializing...</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Options Modal -->
+        <div class="modal" id="exportModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Export MindMap</h3>
+                    <button class="modal-close"
+                        onclick="closeModal('exportModal')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label>Choose Export Format:</label>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
+                        <button class="btn btn-outline export-option"
+                            data-format="png">
+                            <i class="fas fa-image"></i>
+                            PNG Image
+                        </button>
+                        <button class="btn btn-outline export-option"
+                            data-format="pdf">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF Document
+                        </button>
+                        <button class="btn btn-outline export-option"
+                            data-format="json">
+                            <i class="fas fa-code"></i>
+                            JSON Data
+                        </button>
+                        <button class="btn btn-outline export-option"
+                            data-format="xml">
+                            <i class="fas fa-file-code"></i>
+                            XML Format
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
 
-    <!-- Properties Panel -->
-    <div class="properties-panel" id="propertiesPanel">
-        <h3><i class="fas fa-cog"></i> Node Properties</h3>
-        
-        <div class="form-group">
-            <label for="nodeText">Text:</label>
-            <textarea class="form-control" id="nodeText" rows="2" placeholder="Enter node text..."></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="nodeColor">Color:</label>
-            <input type="color" class="color-picker" id="nodeColor" value="#667eea">
-        </div>
-
-        <div class="form-group">
-            <label for="nodeBackgroundColor">Background:</label>
-            <input type="color" class="color-picker" id="nodeBackgroundColor" value="#ffffff">
-        </div>
-
-        <div class="form-group">
-            <label for="nodeFontSize">Font Size:</label>
-            <select class="form-control" id="nodeFontSize">
-                <option value="10">10px</option>
-                <option value="12">12px</option>
-                <option value="14" selected>14px</option>
-                <option value="16">16px</option>
-                <option value="18">18px</option>
-                <option value="20">20px</option>
-                <option value="24">24px</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="nodeIcon">Icon:</label>
-            <select class="form-control" id="nodeIcon">
-                <option value="">No Icon</option>
-                <option value="fas fa-star">⭐ Star</option>
-                <option value="fas fa-heart">❤️ Heart</option>
-                <option value="fas fa-lightbulb">💡 Idea</option>
-                <option value="fas fa-flag">🏁 Flag</option>
-                <option value="fas fa-check-circle">✅ Check</option>
-                <option value="fas fa-exclamation-triangle">⚠️ Warning</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="nodePriority">Priority:</label>
-            <select class="form-control" id="nodePriority">
-                <option value="low">Low</option>
-                <option value="medium" selected>Medium</option>
-                <option value="high">High</option>
-                <option value="critical">Critical</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="nodeStatus">Status:</label>
-            <select class="form-control" id="nodeStatus">
-                <option value="pending" selected>Pending</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="nodeTags">Tags (comma-separated):</label>
-            <input type="text" class="form-control" id="nodeTags" placeholder="tag1, tag2, tag3">
-        </div>
-
-        <div class="form-group">
-            <label for="nodeNotes">Notes:</label>
-            <textarea class="form-control" id="nodeNotes" rows="3" placeholder="Additional notes..."></textarea>
-        </div>
-
-        <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
-            <button class="btn btn-primary" id="applyPropertiesBtn" style="flex: 1;">
-                <i class="fas fa-check"></i>
-                Apply
-            </button>
-            <button class="btn btn-outline" id="cancelPropertiesBtn" style="flex: 1;">
-                <i class="fas fa-times"></i>
-                Cancel
-            </button>
-        </div>
-    </div>
-
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Login to Your Account</h3>
-                <button class="modal-close" onclick="closeModal('loginModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginUsername">Username or Email:</label>
-                    <input type="text" class="form-control" id="loginUsername" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="loginPassword">Password:</label>
-                    <input type="password" class="form-control" id="loginPassword" required>
-                </div>
-                
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Login
-                    </button>
-                    <button type="button" class="btn btn-outline" onclick="showModal('signupModal'); closeModal('loginModal');">
-                        Sign Up
-                    </button>
-                </div>
-                
-                <div style="text-align: center; margin-top: 1rem;">
-                    <a href="#" style="color: var(--primary-solid); text-decoration: none;" id="forgotPasswordLink">
-                        Forgot Password?
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Signup Modal -->
-    <div class="modal" id="signupModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Create Your Account</h3>
-                <button class="modal-close" onclick="closeModal('signupModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <form id="signupForm">
-                <div class="form-group">
-                    <label for="signupUsername">Username:</label>
-                    <input type="text" class="form-control" id="signupUsername" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="signupEmail">Email:</label>
-                    <input type="email" class="form-control" id="signupEmail" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="signupPassword">Password:</label>
-                    <input type="password" class="form-control" id="signupPassword" required minlength="6">
-                </div>
-                
-                <div class="form-group">
-                    <label for="signupConfirmPassword">Confirm Password:</label>
-                    <input type="password" class="form-control" id="signupConfirmPassword" required minlength="6">
-                </div>
-                
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">
-                        <i class="fas fa-user-plus"></i>
-                        Sign Up
-                    </button>
-                    <button type="button" class="btn btn-outline" onclick="showModal('loginModal'); closeModal('signupModal');">
-                        Login
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- New MindMap Modal -->
-    <div class="modal" id="newMindMapModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Create New MindMap</h3>
-                <button class="modal-close" onclick="closeModal('newMindMapModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <form id="newMindMapForm">
-                <div class="form-group">
-                    <label for="mindmapTitle">Title:</label>
-                    <input type="text" class="form-control" id="mindmapTitle" required placeholder="Enter mindmap title">
-                </div>
-                
-                <div class="form-group">
-                    <label for="mindmapDescription">Description:</label>
-                    <textarea class="form-control" id="mindmapDescription" rows="3" placeholder="Describe your mindmap..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="mindmapCategory">Category:</label>
-                    <select class="form-control" id="mindmapCategory">
-                        <option value="">Select Category</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="centralNodeText">Central Node Text:</label>
-                    <input type="text" class="form-control" id="centralNodeText" placeholder="Main topic or idea" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="mindmapTheme">Theme:</label>
-                    <select class="form-control" id="mindmapTheme">
-                        <option value="default">Default</option>
-                        <option value="blue">Blue Ocean</option>
-                        <option value="green">Nature</option>
-                        <option value="purple">Purple Haze</option>
-                        <option value="orange">Sunset</option>
-                        <option value="dark">Dark Mode</option>
-                    </select>
-                </div>
-                
-                <div style="display: flex; align-items: center; margin: 1.5rem 0;">
-                    <input type="checkbox" id="mindmapPublic" style="margin-right: 0.75rem; transform: scale(1.2);">
-                    <label for="mindmapPublic">Make this mind map public</label>
-                </div>
-                
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">
-                        <i class="fas fa-plus"></i>
-                        Create MindMap
-                    </button>
-                    <button type="button" class="btn btn-outline" onclick="closeModal('newMindMapModal')">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- AI Processing Modal -->
-    <div class="modal" id="aiProcessingModal">
-        <div class="modal-content" style="text-align: center;">
-            <div class="modal-header">
-                <h3>AI Processing</h3>
-            </div>
-            
-            <div style="padding: 2rem;">
-                <div class="loading" style="width: 40px; height: 40px; border-width: 4px; margin: 0 auto 1rem;"></div>
-                <h4>Generating MindMap...</h4>
-                <p>Our AI is analyzing your content and creating a structured mind map. This may take a few moments.</p>
-                
-                <div style="margin-top: 2rem;">
-                    <div id="aiProgress" style="width: 100%; height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; overflow: hidden;">
-                        <div id="aiProgressBar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s ease; border-radius: 3px;"></div>
-                    </div>
-                    <small id="aiProgressText" style="display: block; margin-top: 0.5rem; color: var(--secondary);">Initializing...</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Options Modal -->
-    <div class="modal" id="exportModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Export MindMap</h3>
-                <button class="modal-close" onclick="closeModal('exportModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="form-group">
-                <label>Choose Export Format:</label>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
-                    <button class="btn btn-outline export-option" data-format="png">
-                        <i class="fas fa-image"></i>
-                        PNG Image
-                    </button>
-                    <button class="btn btn-outline export-option" data-format="pdf">
-                        <i class="fas fa-file-pdf"></i>
-                        PDF Document
-                    </button>
-                    <button class="btn btn-outline export-option" data-format="json">
-                        <i class="fas fa-code"></i>
-                        JSON Data
-                    </button>
-                    <button class="btn btn-outline export-option" data-format="xml">
-                        <i class="fas fa-file-code"></i>
-                        XML Format
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
+        <script>
         /**
          * Enhanced MindMap Platform - Frontend JavaScript
          * Integrates with the provided PHP backend API
@@ -1951,7 +2014,7 @@
                 }
             }
             
-            addChildNode(parentNode) {
+            addChildNode(parentNodetext = 'Child Node') {
                 if (!parentNode || !this.currentMindMap || !this.diagram) return;
                 
                 const parentData = parentNode.data;
@@ -1959,7 +2022,7 @@
                 
                 const newNodeData = {
                     key: 'temp_' + Date.now(),
-                    text: 'Child Node',
+                    text: text,
                     color: parentData.color,
                     backgroundColor: '#ffffff',
                     textColor: '#000000',
@@ -2161,36 +2224,41 @@
             }
             
             // AI Suggestions
-            async getAISuggestions() {
-                if (!this.currentMindMap) {
-                    this.showToast('Please select a mindmap first', 'warning');
-                    return;
-                }
-                
-                this.showToast('Getting AI suggestions...', 'info');
-                
-                try {
-                    // Mock AI suggestions (replace with actual API)
-                    const suggestions = [
-                        'Market Research',
-                        'Competitive Analysis', 
-                        'Customer Feedback',
-                        'Implementation Plan',
-                        'Risk Assessment'
-                    ];
-                    
-                    suggestions.forEach((suggestion, index) => {
-                        setTimeout(() => {
-                            this.addSuggestionNode(suggestion, index);
-                        }, index * 500);
-                    });
-                    
-                    this.showToast('AI suggestions added', 'success');
-                } catch (error) {
-                    this.showToast('Failed to get AI suggestions', 'error');
-                }
-            }
+            // This is the NEW function that calls the API
+async getAISuggestions() {
+    if (!this.currentMindMap) {
+        this.showToast('Please select a mindmap first', 'warning');
+        return;
+    }
+
+    if (!this.selectedNode) {
+        this.showToast('Please select a node to get suggestions for', 'warning');
+        return;
+    }
+
+    this.showToast('Getting AI suggestions...', 'info');
+
+    try {
+        // API call to the backend
+        const response = await this.apiCall(`mindmap_api.php?action=ai-suggestions&node_id=${this.selectedNode.data.key}`, 'GET');
+        
+        if (response.success && response.data.length > 0) {
+            const parentNode = this.selectedNode;
+
+            response.data.forEach((suggestionText, index) => {
+                // This adds the suggested nodes around the selected node
+                this.addChildNode(parentNode, suggestionText);
+            });
+            this.showToast('AI suggestions added!', 'success');
             
+        } else {
+            this.showToast(response.message || 'No new suggestions found.', 'info');
+        }
+    } catch (error) {
+        console.error('Failed to get AI suggestions:', error);
+        this.showToast('Failed to get AI suggestions', 'error');
+    }
+}
             addSuggestionNode(text, index) {
                 if (!this.diagram) return;
                 
@@ -2216,23 +2284,19 @@
             }
             
             // Utility Methods
-            async loadCategories() {
-                try {
-                    // Use mock categories that match database structure
-                    this.categories = [
-                        { category_id: 1, name: 'Business', color: '#667eea' },
-                        { category_id: 2, name: 'Education', color: '#4facfe' },
-                        { category_id: 3, name: 'Personal', color: '#43e97b' },
-                        { category_id: 4, name: 'Project', color: '#fa709a' },
-                        { category_id: 5, name: 'Creative', color: '#f093fb' },
-                        { category_id: 6, name: 'Research', color: '#feca57' }
-                    ];
-                    
-                    this.populateCategorySelects();
-                } catch (error) {
-                    console.error('Failed to load categories:', error);
-                }
-            }
+            // This is the NEW function that calls the API
+async loadCategories() {
+    if (!this.authToken) return; // Categories are loaded for authenticated users
+    try {
+        const response = await this.apiCall('mindmap_api.php?action=categories', 'GET');
+        if (response.success) {
+            this.categories = response.data;
+            this.populateCategorySelects();
+        }
+    } catch (error) {
+        console.error('Failed to load categories:', error);
+    }
+}
             
             populateCategorySelects() {
                 const selects = ['categoryFilter', 'mindmapCategory'];
@@ -2507,5 +2571,5 @@
         });
 
         </script>
-</body>
-</html>          
+    </body>
+</html>
