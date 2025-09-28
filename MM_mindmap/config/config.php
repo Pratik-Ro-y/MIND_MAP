@@ -7,7 +7,7 @@ define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
 // JWT Configuration
-define('JWT_SECRET', 'your_jwt_secret_key_here'); // Change this to a strong secret key
+define('JWT_SECRET', '9a64744cb58ad392bbf1f7c5e8442be7'); // Change this to a strong secret key
 define('JWT_EXPIRY', 86400); // 24 hours in seconds
 
 // File Upload Configuration
@@ -32,5 +32,6 @@ define('LOGIN_LOCKOUT_TIME', 900); // 15 minutes
 
 // Session Settings
 define('SESSION_CLEANUP_PROBABILITY', 0.1); // 10% chance to clean expired sessions
+
 
 ?>
