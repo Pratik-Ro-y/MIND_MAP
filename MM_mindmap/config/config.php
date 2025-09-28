@@ -17,7 +17,7 @@ define('ALLOWED_FILE_TYPES', ['txt', 'pdf', 'docx', 'md']);
 
 // API Configuration
 define('API_VERSION', '1.0');
-define('CORS_ORIGIN', '*'); // Change to your domain in production
+define('CORS_ORIGIN', 'http://localhost'); // Change to your domain in production
 define('DEBUG_MODE', true); // Set to false in production
 
 // Application Settings
@@ -35,3 +35,4 @@ define('SESSION_CLEANUP_PROBABILITY', 0.1); // 10% chance to clean expired sessi
 
 
 ?>
+
