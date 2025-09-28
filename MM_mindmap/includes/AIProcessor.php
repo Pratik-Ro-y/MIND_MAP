@@ -137,7 +137,7 @@ class AIProcessor {
         
         // Get existing nodes to avoid duplicates
         $existingNodes = $this->db->fetchAll(
-            "SELECT map_id FROM nodes WHERE node_id = ?",
+            "SELECT node_text FROM nodes WHERE map_id = ?",
             [$mindMapId]
         );
         
@@ -207,3 +207,4 @@ class AIProcessor {
     }
 }
 ?>
+
