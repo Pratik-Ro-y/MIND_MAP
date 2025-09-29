@@ -71,10 +71,7 @@ INSERT INTO `templates` (`title`, `description`, `nodeStructure`) VALUES
     {"nodeId": 3, "parentId": 1, "content": "Weaknesses", "x": 400, "y": 350, "color": "#dc3545"},
     {"nodeId": 4, "parentId": 1, "content": "Opportunities", "x": 600, "y": 350, "color": "#ffc107"},
     {"nodeId": 5, "parentId": 1, "content": "Threats", "x": 800, "y": 350, "color": "#6c757d"}
-]');
-
--- Insert a "Project Plan" template
-INSERT INTO `templates` (`title`, `description`, `nodeStructure`) VALUES
+]'),
 ('Project Plan', 'A basic structure for planning a new project.', '[
     {"nodeId": 1, "parentId": null, "content": "New Project Plan", "x": 400, "y": 150, "color": "#667eea"},
     {"nodeId": 2, "parentId": 1, "content": "Goals", "x": 200, "y": 300, "color": "#4285f4"},
@@ -82,4 +79,18 @@ INSERT INTO `templates` (`title`, `description`, `nodeStructure`) VALUES
     {"nodeId": 4, "parentId": 1, "content": "Budget", "x": 600, "y": 300, "color": "#4285f4"},
     {"nodeId": 5, "parentId": 2, "content": "Primary Objective", "x": 150, "y": 450, "color": "#34a853"},
     {"nodeId": 6, "parentId": 2, "content": "Key Deliverables", "x": 250, "y": 450, "color": "#34a853"}
+]'),
+('Brainstorming', 'A template for brainstorming sessions.', '[
+    {"nodeId": 1, "parentId": null, "content": "Central Topic", "x": 400, "y": 200, "color": "#667eea"},
+    {"nodeId": 2, "parentId": 1, "content": "Idea 1", "x": 200, "y": 350, "color": "#4285f4"},
+    {"nodeId": 3, "parentId": 1, "content": "Idea 2", "x": 400, "y": 350, "color": "#4285f4"},
+    {"nodeId": 4, "parentId": 1, "content": "Idea 3", "x": 600, "y": 350, "color": "#4285f4"}
+]'),
+('Weekly Planner', 'Organize your week with this planner.', '[
+    {"nodeId": 1, "parentId": null, "content": "Weekly Goals", "x": 400, "y": 100, "color": "#667eea"},
+    {"nodeId": 2, "parentId": 1, "content": "Monday", "x": 100, "y": 250, "color": "#4285f4"},
+    {"nodeId": 3, "parentId": 1, "content": "Tuesday", "x": 250, "y": 250, "color": "#4285f4"},
+    {"nodeId": 4, "parentId": 1, "content": "Wednesday", "x": 400, "y": 250, "color": "#4285f4"},
+    {"nodeId": 5, "parentId": 1, "content": "Thursday", "x": 550, "y": 250, "color": "#4285f4"},
+    {"nodeId": 6, "parentId": 1, "content": "Friday", "x": 700, "y": 250, "color": "#4285f4"}
 ]');
