@@ -145,7 +145,7 @@ try {
                 <form id="ai-upload-form" enctype="multipart/form-data">
                     <label for="ai-file-input" class="upload-card">
                         <i class="fas fa-robot"></i>
-                        <div>Upload & Generate</div>
+                        <div>Upload & Generate</div><br><br><br>
                         <small>Drop a .txt file or click</small>
                     </label>
                     <input type="file" id="ai-file-input" name="document" accept=".txt,.csv" style="display: none;">

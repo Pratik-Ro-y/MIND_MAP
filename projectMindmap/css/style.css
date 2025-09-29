@@ -60,6 +60,8 @@ body {
     font-weight: 600;
     letter-spacing: 0.5px;
 }
+
+/* === MODIFIED STYLE === */
 .upload-card {
     border: 2px dashed var(--border-color);
     border-radius: 8px;
@@ -69,7 +71,14 @@ body {
     color: var(--text-light);
     cursor: pointer;
     transition: all 0.3s ease;
+    /* --- New Flexbox properties --- */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* Adds space between the items */
 }
+
 .upload-card:hover { border-color: var(--primary-color); background-color: #f8faff; }
 .upload-card i { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 0.5rem; }
 .main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
